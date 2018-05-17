@@ -1,17 +1,149 @@
 <html>
-    <head>
+<head>
+    <title>Ass. Vitual</title>
     <script src="artyom.js"></script>
-    </head>
+    <script src="artyom.window.js"></script>
+    <style>
+        body{
+            margin:0; padding:0; display:flex; 
+        }    
+        .img1{
+            margin:0; padding:0; width:60%; height:1300px; 
+        }
+        .img2{
+            margin:0; padding:0; width:60%; height:1080px; 
+        }
+    </style>
+</head>
 <body>
-    <script>
-        artyom.initialize({
-            lang:'pt',
-            continuous: true,
-            debug: false,
-            listen: true
-        
-        });
+<span id="textout">
 
+</span>
+    <div class="img1">
+        <img src="olho.gif"/>
+    </div>
+    <div class="img2">
+        <img src="olho.gif"/>
+    </div>
+<script>
+    var artyom = new Artyom();
+    var config = {
+        lang:'pt-BR',
+        continuous: true,
+        debug: false,
+        listen:true,
+        obeyKeyword:'start'
+    };
+    artyom.initialize(config);
+    var funcSaudacao = {
+        indexes: ["Olá","Bom dia"],
+        action: function(i){
+            if(i==0){
+                artyom.sayRandom(["Oi","Tudo ok","Estava te esperando Marco"]);
+            }
+        }
+    };
+     var funcNome = {
+        indexes: ["Como é seu nome","Como você se chama", "seu nome", "quem é você"],
+        action: function(i){
+            if(i==0 || i==1 || i==2 || i==3){
+                artyom.sayRandom(["Eu sou a Samantha","As pessoas me chamam de Samantha","Bond, Samantha Bond"]);
+            }
+        }
+    };
+     var funcSurgiu = {
+        indexes: ["Como você nasceu","como você surgiu", "quem te criou"],
+        action: function(i){
+            if(i==0 || i==1 || i==2){
+                artyom.say("Eu sou uma das experiências malucas de Marco Alves");
+            }
+        }
+    };
+    var funcTime = {
+        indexes: ["Que horas são"],
+        action: function(i){
+            if(i==0){
+                data = new Date();
+                horas = data.getHours();
+                minutos = data.getMinutes();
+                artyom.say("São "+horas+" horas e "+minutos+"minutos");
+            }
+        }
+    };
+    var funcDate = {
+        indexes: ["Que dia é hoje", "A data atual","Me diga que dia é hoje"],
+        action: function(i){
+            if(i==0 || i==1 || i==2){
+                data = new Date();
+                dia = data.getDay();
+                mes = data.getMonth();
+                ano = data.getYear();
+                artyom.say("Hoje é "+dia+" do "+mes+" de "+ano);
+            }
+        }
+    };
+    var funcPiada = {
+        indexes: ["Me conte uma piada"],
+        action: function(i){
+            if(i==0){
+                artyom.say("Sabe o que a pedra disse para o peixe? Naadaa kkkk");
+            }
+        }
+    };
+    var funcMusica = {
+        indexes: ["Toque uma música internacional","Toque uma música nacional"],
+        action: function(i){
+            artyom.say("Vou tocar a sua preferida!");
+            if(i==0){
+                window.open("https://www.youtube.com/watch?v=1w7OgIMMRc4","_blank");
+            }else{
+                 window.open("https://www.youtube.com/watch?v=fJqXCFJ_doM","_blank");
+            }
+        }
+    };
+     var funcPesqYoutube = {
+        indexes: ["Pesquise no youtube *","Pesquisar no youtube *","Busque no youtube *","Buscar no youtube *","Pesquisa no youtube *","Busca no youtube *"],
+        smart:true,
+        action: function(i, str){
+			if(str != ""){
+				var str2 = "https://www.youtube.com/results?search_query=";
+				str2 = str2.concat(str);
+				artyom.say("Pesquisando");
+				window.open(str2,"_blank");
+			}
+        }
+    };
+    var funcPagina = {
+        indexes: ["Abra meu *"],
+        smart:true,
+        action: function(i, str){
+            if((str=="facebook") || (str=="Facebook")){
+                artyom.say("Abrir Facebook");
+                window.open("https://www.facebook.com","_blank");
+            }else if((str=="gmail") || (str=="Gmail")){
+                artyom.say("Abrir Gmail");
+                window.open("https://www.google.com/gmail/","_blank");
+            }
+        }
+    };
+    artyom.redirectRecognizedTextOutput(function(text, EhFinal){
+        var spam = document.getElementById("textout");
+        if(EhFinal){
+            spam.innerHTML = text;
+        }else{
+            spam.innerHTML = spam.innerHTML+'.';
+        }
+    });
+    artyom.addCommands(funcSaudacao);
+    artyom.addCommands(funcNome);
+    artyom.addCommands(funcSurgiu);
+    artyom.addCommands(funcTime);
+    artyom.addCommands(funcDate);
+    artyom.addCommands(funcPiada);
+    artyom.addCommands(funcMusica);
+    artyom.addCommands(funcpesqYoutube);
+    artyom.addCommands(funcPagina);
+    //artyom.fatality();
 </script>
 </body>
 </html>
